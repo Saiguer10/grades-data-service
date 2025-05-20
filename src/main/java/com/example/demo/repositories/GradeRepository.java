@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface GradeRepository extends JpaRepository<Grade, Long> {
-    List<Grade> findByCourseCode(String courseCode);
+    List<Grade> findByCourse_CourseCode(String courseCode);
 }
