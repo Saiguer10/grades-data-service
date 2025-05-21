@@ -1,16 +1,15 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.CourseGrade;
+import com.example.demo.dto.CourseGradeDto;
 import com.example.demo.models.Course;
 import com.example.demo.models.Grade;
 import com.example.demo.repositories.CourseRepository;
 import com.example.demo.repositories.GradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
@@ -21,20 +20,18 @@ public class CourseService {
     @Autowired
     private GradeRepository gradeRepository;
 
-    public Optional<Course> getCourseByCode(String courseCode) {
-        return courseRepository.findById(courseCode);
+
+    public Course getCourseByCode(Long courseCode) {
+        return courseRepository.findById(courseCode).orElse(null);
     }
 
-    public List<CourseGrade> getGradesByCourseCode(String courseCode) {
+    public CourseGradeDto getCourseGrade(Long courseCode) {
+        Course course = getCourseByCode(courseCode);
+        if (course == null){
+            return null;
+        }
         List<Grade> grades = gradeRepository.findByCourse_CourseCode(courseCode);
-
-        return grades.stream()
-                .map(grade -> new CourseGrade(
-                        grade.getCourse().getCourseCode(),
-                        grade.getCourse().getCourseName(),
-                        grade.getStudentId(),
-                        grade.getGrade()
-                ))
-                .collect(Collectors.toList());
+        return new CourseGradeDto(course.getCourseName(), grades);
     }
+
 }

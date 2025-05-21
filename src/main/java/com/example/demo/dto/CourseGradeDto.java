@@ -1,15 +1,19 @@
 package com.example.demo.dto;
 
+
+import com.example.demo.models.Grade;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseGrade {
-    private String courseCode;
+public class CourseGradeDto {
     private String courseName;
-    private Long studentId;
-    private double grade;
+    private List<Grade> grades;
+
+
 }
